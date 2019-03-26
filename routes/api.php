@@ -27,9 +27,6 @@ Route::group(['namespace' => 'Api'], function() {
     Route::get('user-type', 'UserTypeController@index');
     Route::get('subject', 'ContactUsController@index');
     Route::post('contact-us', 'ContactUsController@contactUs');
-    /*Add by faizan by 26-march-2019*/
-    Route::post('query', 'ContactUsController@Query');
-    /*end*/
     Route::post('forgot-password', 'LoginController@resetPassword');
     Route::get('speaker', 'SpeakerController@index');
     Route::get('speaker/{id}', 'SpeakerController@detail');
@@ -42,6 +39,30 @@ Route::group(['namespace' => 'Api'], function() {
      /*Commented by faizan by 26-march-2019*/
     // Route::get('series', 'SeriesController@index');
 	/*end*/
+
+
+
+    /*Add by faizan by 26-march-2019*/
+    Route::prefix('contact-us')->group(function () {
+        Route::get('info', 'ContactUsController@GetInfo');
+        Route::post('query', 'ContactUsController@PostQuery');
+
+        Route::group(['middleware' => 'users-api'],function () {
+            Route::post('review', 'ContactUsController@PostFeedback');
+    });
+
+    });
+
+    Route::prefix('cms')->group(function () {
+        Route::get('faq', 'GeneralController@GetFaq');
+        Route::get('privacy_policy', 'GeneralController@GetPrivacyPolicy');
+        Route::get('terms_condition', 'GeneralController@GetTermsCondition');
+    
+    });
+
+    /*end*/
+
+
 	
 	Route::group(['middleware' => 'users-api'], function () {
         Route::post('logout', 'LoginController@logout');

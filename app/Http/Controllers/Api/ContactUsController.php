@@ -103,14 +103,36 @@ class ContactUsController extends Controller
     }
 
     /**
-     * User Query
+     * Returning contact us info
+     * plus
+     * @return success/failure response
+     */
+
+    public function GetInfo(Request $request){
+
+       try{
+            $data['address'] = 'ssddd';
+            $data['contact_number'] = '313533';
+            $data['email_id'] = 'abc@abc.com';
+
+            return $this->APIResponse->respondWithMessageAndPayload($data);
+
+        }catch(Exception $e){
+
+            return $this->APIResponse->handleAndResponseException($e);
+        }
+   
+    }//query funntion end here
+
+    /**
+     * Post User Query for guest user
      * 
      * @param Subject
      * @param Message
      * @return success/failure response
      */
 
-    public function Query(Request $request){
+    public function PostQuery(Request $request){
 
 
          $request->validate([
@@ -131,5 +153,37 @@ class ContactUsController extends Controller
             return $this->APIResponse->handleAndResponseException($e);
         }
    
-    }//query funntion end here
+    }
+
+
+    /**
+     * User Feedback for logged user
+     * 
+     * @param subject
+     * @param Message
+     * @return success/failure response
+     */
+    public function PostFeedback(Request $request){
+
+
+         $request->validate([
+            'Subject' => 'required|string',
+            'Message' => 'required|string',
+        ]);
+
+       try{
+        $query = new ContactUs;
+        $query->subject = $request->Subject;
+        // $query->user_id = $request->user()->id;
+        $query->description = $request->Message;
+        $query->save();
+
+        return $this->APIResponse->respondWithMessage(__('Feedback has been send successfully.'));
+
+        }catch(Exception $e){
+
+            return $this->APIResponse->handleAndResponseException($e);
+        }
+   
+    }
 }
