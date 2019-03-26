@@ -1,0 +1,11 @@
+
+1)=>In Translator.php line 89:
+                                                                              
+  Parse error: syntax error, unexpected '?', expecting variable (T_VARIABLE)  
+                                                                   
+[try]=>composer require nesbot/carbon=1.29.*
+
+[sol]=>updated php version from 7.0.x to 7.2.X
+
+comment:becouse my system having 7.0.33 and its require 7.1.X
+
