@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Response\APIResponse;
 use App\Models\ContactUs;
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
@@ -111,9 +112,9 @@ class ContactUsController extends Controller
     public function GetInfo(Request $request){
 
        try{
-            $data['address'] = 'ssddd';
-            $data['contact_number'] = '313533';
-            $data['email_id'] = 'abc@abc.com';
+            $data['address'] = Setting::where('key','address')->first()->value;
+            $data['contact_number'] = Setting::where('key','contact_number')->first()->value;
+            $data['email_id'] = Setting::where('key','email_id')->first()->value;
 
             return $this->APIResponse->respondWithMessageAndPayload($data);
 

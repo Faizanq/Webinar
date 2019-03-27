@@ -51,7 +51,7 @@ class LoginController extends Controller
                 $user = auth('api')->getLastAttempted();
             }
             if (isset($user->status) && $user->status == config('constants.STATUS.STATUS_ACTIVE')) {
-                $jwtToken = auth('api')->attempt($input);
+                $jwtToken = auth('api')->attempt($input,['exp' =>Carbon::now()->addDays(7)->timestamp]);
                 $requestData = $request->all();
                 unset($requestData['email']);
                 unset($requestData['password']);

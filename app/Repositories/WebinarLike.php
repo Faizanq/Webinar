@@ -13,7 +13,7 @@ class WebinarLike extends DatabaseRepository
     /**
      * @var string
      */
-    protected $table = 'webinar_like';
+    protected $table = 'webinar_likes';
 
     /**
      * $timestamps false to avoid auto insert of default date]

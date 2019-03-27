@@ -76,8 +76,8 @@ Route::group(['namespace' => 'Api'], function() {
         Route::post('webinar/my-favorite', 'WebinarController@myFavorite');
 		Route::post('speaker/like/{id}', 'SpeakerController@likeDislike');
         Route::post('speaker/dislike/{id}', 'SpeakerController@likeDislike');
-        Route::post('webinar/like/{id}', 'WebinarController@likeDislike');
-        Route::post('webinar/dislike/{id}', 'WebinarController@likeDislike');
+        Route::post('webinar/like-dislike', 'WebinarController@likeDislike');
+        Route::post('webinar/dislike', 'WebinarController@likeDislike');
         Route::post('company/like/{id}', 'CompanyController@likeDislike');
         Route::post('company/dislike/{id}', 'CompanyController@likeDislike');
 	});

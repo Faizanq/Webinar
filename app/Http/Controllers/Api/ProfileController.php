@@ -83,6 +83,10 @@ class ProfileController extends Controller
                         unset($user['tags'][$key]['pivot']);
                     }
                 }
+
+                $user['profile_picture'] = !empty($user['profile_picture']) ? $user['profile_picture'] : "";
+
+                
                 $user['tags'] = !empty($user['tags']) ? $user['tags'] : [];
                 return $this->APIResponse->respondWithMessageAndPayload([
                             'data' => $user,

@@ -7,6 +7,7 @@ use App\Http\Response\APIResponse;
 use Illuminate\Http\Request;
 use App\Models\Webinar;
 use App\Repositories\WebinarLike;
+// use App\Models\WebinarLike;
 use App\Http\Requests\Api\WebinarLikeDislikeRequest;
 use Carbon\Carbon;
 use DB;
@@ -105,8 +106,11 @@ class WebinarController extends Controller
      */
     public function likeDislike(WebinarLikeDislikeRequest $request) {
         try {
-            $checkFollow = WebinarLike::select('id')->where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->count();
-            if($checkFollow == '0') {
+            // $checkFollow = WebinarLike::select('id')->where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->count();
+
+            $checkFollow = WebinarLike::select('id')->where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->first();
+
+             if(!$checkFollow) {
                 $created_at = Carbon::now();
                 $speakerInsert = ['webinar_id'=> $request->webinar_id,
                                 'user_id'=> auth('api')->user()->id,
@@ -115,7 +119,12 @@ class WebinarController extends Controller
                 $followInser = WebinarLike::create($speakerInsert);
                 return $this->APIResponse->respondWithMessage(__('Webinar like successfully.'));
             } else {
-                WebinarLike::where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->delete();
+
+                // WebinarLike::where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->delete();
+
+                WebinarLike::where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->update(['status'=>0]);
+
+
                 return $this->APIResponse->respondWithMessage(__('Webinar dislike successfully.'));
             }
         } catch (\Exception $e) {
