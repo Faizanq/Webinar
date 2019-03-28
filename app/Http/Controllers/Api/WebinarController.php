@@ -106,26 +106,44 @@ class WebinarController extends Controller
      */
     public function likeDislike(WebinarLikeDislikeRequest $request) {
         try {
-            // $checkFollow = WebinarLike::select('id')->where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->count();
 
-            $checkFollow = WebinarLike::select('id')->where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->first();
+            //Updated by Faizan 28-march-2019
+            $like = WebinarLike::select(['id','status'])->where(['webinar_id'=> $request->webinar_id,'user_id'=> auth('api')->user()->id])->first();
 
-             if(!$checkFollow) {
+             if(!$like) {
+                $created_at = time();
                 $created_at = Carbon::now();
+                
                 $speakerInsert = ['webinar_id'=> $request->webinar_id,
                                 'user_id'=> auth('api')->user()->id,
                                 'created_at'=>$created_at
                               ];
                 $followInser = WebinarLike::create($speakerInsert);
-                return $this->APIResponse->respondWithMessage(__('Webinar like successfully.'));
+
+                return $this->APIResponse->respondWithMessageAndPayload([
+                            'is_like' => 'Y',
+                                ],'Webinar like successfully.');
+
             } else {
 
-                // WebinarLike::where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->delete();
+                if(!$like->status){
+                    WebinarLike::where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->update(['status'=>1]);
 
-                WebinarLike::where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->update(['status'=>0]);
+                return $this->APIResponse->respondWithMessageAndPayload([
+                            'is_like' => 'Y',
+                                ],'Webinar like successfully.');
+
+                }
+                else{
+                    WebinarLike::where([['webinar_id', '=', $request->webinar_id], ['user_id','=', auth('api')->user()->id]])->update(['status'=>0]);
 
 
-                return $this->APIResponse->respondWithMessage(__('Webinar dislike successfully.'));
+                return $this->APIResponse->respondWithMessageAndPayload([
+                            'is_like' => 'N',
+                                ],'Webinar dislike successfully.');
+
+                }
+
             }
         } catch (\Exception $e) {
             return $this->APIResponse->handleAndResponseException($e);

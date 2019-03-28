@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Notification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
@@ -40,6 +41,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function userType() {
         return $this->belongsTo(UserType::class);
+    }
+
+    public function notifications() {
+        return $this->belongsTo(Notification::class);
     }
 
     /**

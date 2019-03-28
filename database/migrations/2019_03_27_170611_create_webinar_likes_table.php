@@ -18,7 +18,7 @@ class CreateWebinarLikesTable extends Migration
             $table->integer('webinar_id');
             $table->integer('user_id');
             $table->boolean('status')->default(1);
-            $table->integer('created_at');
+            $table->dateTime('created_at');
             // $table->integer('modified_by');
             // $table->timestamps();
         });

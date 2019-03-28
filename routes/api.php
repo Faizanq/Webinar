@@ -49,7 +49,7 @@ Route::group(['namespace' => 'Api'], function() {
 
         Route::group(['middleware' => 'users-api'],function () {
             Route::post('review', 'ContactUsController@PostFeedback');
-    });
+        });
 
     });
 
@@ -58,6 +58,14 @@ Route::group(['namespace' => 'Api'], function() {
         Route::get('privacy_policy', 'GeneralController@GetPrivacyPolicy');
         Route::get('terms_condition', 'GeneralController@GetTermsCondition');
     
+    });
+
+    Route::prefix('notification')->group(function () {
+
+        Route::group(['middleware' => 'users-api'],function () {
+            Route::get('/', 'NotificationController@index');
+        });
+
     });
 
     /*end*/
@@ -76,8 +84,10 @@ Route::group(['namespace' => 'Api'], function() {
         Route::post('webinar/my-favorite', 'WebinarController@myFavorite');
 		Route::post('speaker/like/{id}', 'SpeakerController@likeDislike');
         Route::post('speaker/dislike/{id}', 'SpeakerController@likeDislike');
+        //Add by Faizan 28-march-2019
+        //like and dislike combine into one api
         Route::post('webinar/like-dislike', 'WebinarController@likeDislike');
-        Route::post('webinar/dislike', 'WebinarController@likeDislike');
+        // Route::post('webinar/dislike', 'WebinarController@likeDislike');
         Route::post('company/like/{id}', 'CompanyController@likeDislike');
         Route::post('company/dislike/{id}', 'CompanyController@likeDislike');
 	});
