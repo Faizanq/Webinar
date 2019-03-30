@@ -19,7 +19,9 @@ class NotificationController extends Controller
     }
 
     /**
-     * return the belonging Notification list
+     * @todo need to dynamically add webinar_id,notification_time
+     * need to do pagination,also read and unread functionality
+     *@return the belonging Notification list
      */
     public function index()
     {
@@ -37,6 +39,10 @@ class NotificationController extends Controller
                 $result['notification_list'][$i]['notification_title'] = isset($notification->notification_text)?$notification->notification_text:'';
                 $result['notification_list'][$i]['timestamp'] = isset($notification->created_at)?$notification->created_at->timestamp:'';
                 $result['notification_list'][$i]['is_read'] = $notification->read_notification;
+
+                $result['notification_list'][$i]['webinar_id'] = 1;
+
+                $result['notification_list'][$i]['notification_type'] = 'webinar';
                
                 $i++;
               }

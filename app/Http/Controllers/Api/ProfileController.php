@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Response\APIResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\ProfileRequest;
+use App\Models\WebinarLike;
 use Symfony\Component\HttpFoundation\Response as ResponseHTTP;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -92,6 +94,33 @@ class ProfileController extends Controller
                             'data' => $user,
                                 ]);
             }
+
+        } catch (\Exception $e) {
+            return $this->APIResponse->handleAndResponseException($e);
+        }
+    }
+
+
+
+    /**
+     * View user Favorites such as tags,speaker,comapany
+     * @todo need to add banner image dynamically
+     * @return object
+     */
+    public function Favorites()
+    {
+        try {
+
+            $result['banner_image'] = 'https://picsum.photos/200/300';
+
+            $result['webinar_count'] = WebinarLike::where(['user_id'=>auth('api')->user()->id,'status'=>1])->count();
+            
+            $result['topics_of_interest_count'] = DB::table('tag_user')->where(['user_id'=>auth('api')->user()->id])->count();
+            
+            $result['speaker_count'] = 0;
+            $result['company_count'] = 0;
+
+            return $this->APIResponse->respondWithMessageAndPayload($result,'success');
 
         } catch (\Exception $e) {
             return $this->APIResponse->handleAndResponseException($e);

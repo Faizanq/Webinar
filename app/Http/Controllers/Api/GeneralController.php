@@ -19,7 +19,8 @@ class GeneralController extends Controller
     }
 
     /**
-     * return the Faq page link
+     * @todo  get the dynamic link
+     * @return the Faq page link
      */
     public function GetFaq(Request $request)
     {
@@ -33,7 +34,8 @@ class GeneralController extends Controller
     }
 
     /**
-     * return the Privacy Policy page link
+     * @todo  get the dynamic link
+     * @return the Privacy Policy page link
      */
     public function GetPrivacyPolicy(Request $request)
     {
@@ -48,7 +50,8 @@ class GeneralController extends Controller
 
 
     /**
-     * return the Terms and Condition page link
+     * @todo  get the dynamic link
+     * @return the Terms and Condition page link
      */
     public function GetTermsCondition(Request $request)
     {

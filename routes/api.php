@@ -73,15 +73,24 @@ Route::group(['namespace' => 'Api'], function() {
 
 	
 	Route::group(['middleware' => 'users-api'], function () {
+
         Route::post('logout', 'LoginController@logout');
         Route::post('change-password', 'LoginController@changePassword');
         Route::get('view-profile', 'ProfileController@viewProfile');
         Route::post('edit-profile', 'ProfileController@editProfile');
+        //Add by faizan 29-march-2019
+        Route::get('favorites', 'ProfileController@Favorites');
+        //end
+        
         Route::post('speaker/follow/{id}', 'SpeakerController@followUnfollow');
         Route::post('speaker/unfollow/{id}', 'SpeakerController@followUnfollow');
 		Route::post('speaker/my-favorite', 'SpeakerController@myFavorite');
 		Route::post('company/my-favorite', 'CompanyController@myFavorite');
         Route::post('webinar/my-favorite', 'WebinarController@myFavorite');
+        //Add by Faizan 29-march-2019
+        Route::get('webinar/webinar-detail/{id}', 'WebinarController@detail');
+
+        //end
 		Route::post('speaker/like/{id}', 'SpeakerController@likeDislike');
         Route::post('speaker/dislike/{id}', 'SpeakerController@likeDislike');
         //Add by Faizan 28-march-2019
